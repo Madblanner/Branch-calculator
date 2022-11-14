@@ -5,26 +5,33 @@ import (
 )
 
 func main() {
-	ch := make(chan string)
-	go Add(2, 2, ch)
-	go Add(3, 6, ch)
-	go Multip(7, 7, ch)
-	go Del(9, 3, ch)
-	fmt.Println(<-ch)
+	ch1 := make(chan int)
+	ch2 := make(chan int)
+	ch3 := make(chan int)
+	ch4 := make(chan int)
+	go Add(2, 2, ch1)
+	go Add(3, 6, ch2)
+	go Multip(7, 7, ch3)
+	go Del(9, 3, ch4)
+	i := <-ch1 + <-ch2 + <-ch3 + <-ch4
+	fmt.Println("Numbers of examples =", i)
+
 }
 
-func Add(x, y int, ch chan string) {
+func Add(x, y int, ch chan int) {
 	i := x + y
 	fmt.Printf("%d + %d = %d\n", x, y, i)
-	ch <- "exit"
+	ch <- 1
+
 }
-func Multip(x, y int, ch chan string) {
+func Multip(x, y int, ch chan int) {
 	i := x * y
 	fmt.Printf("%d * %d = %d\n", x, y, i)
-	ch <- "exit"
+	ch <- 1
+
 }
-func Del(x, y int, ch chan string) {
+func Del(x, y int, ch chan int) {
 	i := x / y
 	fmt.Printf("%d / %d = %d\n", x, y, i)
-	ch <- "exit"
+	ch <- 1
 }
